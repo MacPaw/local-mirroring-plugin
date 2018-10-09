@@ -9,6 +9,7 @@ use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
+use Composer\Plugin\PreCommandRunEvent;
 
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
@@ -21,9 +22,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     {
         return [
             PluginEvents::INIT => [
-                ['removePaths', 0],
                 ['initDownloader', 0],
             ],
+            PluginEvents::PRE_COMMAND_RUN => [
+                ['removePaths', 0],
+            ]
         ];
     }
 
@@ -38,14 +41,17 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     }
 
     /**
-     * @param Event $event
+     * @param PreCommandRunEvent $event
      */
-    public function removePaths(Event $event)
+    public function removePaths(PreCommandRunEvent $event)
     {
-        $package = $this->composer->getPackage();
-        $rootPath = $this->composer->getConfig()->get('vendor-dir');
+        if (!in_array($event->getCommand(), ['install', 'update'])) {
+            return;
+        }
 
+        $package = $this->composer->getPackage();
         $pathsList = (array)($package->getExtra()['remove-paths'] ?? []);
+        $rootPath = $this->composer->getConfig()->get('vendor-dir');
         foreach ($pathsList as $relativePath) {
             $path = $rootPath . DIRECTORY_SEPARATOR . ltrim($relativePath, DIRECTORY_SEPARATOR);
             $this->io->write('Removing <fg=red>' . $path . '</>');
