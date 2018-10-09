@@ -1,0 +1,21 @@
+{
+	"name": "macpaw/local-mirroring-plugin",
+	"type": "composer-plugin",
+	"keywords": ["composer", "composer-plugin", "monorepo", "downloader", "symlinks"],
+	"version": "1.0.3",
+	"require": {
+		"php": ">=7.0.0",
+		"composer-plugin-api": "1.1.*"
+	},
+	"require-dev": {
+		"composer/composer": "1.7.*"
+	},
+	"autoload": {
+		"psr-4": {
+			"MacPaw\\LocalMirroringPlugin\\": "src/"
+		}
+	},
+	"extra": {
+		"class": "MacPaw\\LocalMirroringPlugin\\Plugin"
+	}
+}
