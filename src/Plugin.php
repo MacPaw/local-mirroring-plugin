@@ -25,8 +25,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
                 ['initDownloader', 0],
             ],
             PluginEvents::PRE_COMMAND_RUN => [
-                ['removePaths', 0],
-            ]
+                ['removePackages', PHP_INT_MAX],
+            ],
         ];
     }
 
@@ -43,19 +43,24 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     /**
      * @param PreCommandRunEvent $event
      */
-    public function removePaths(PreCommandRunEvent $event)
+    public function removePackages(PreCommandRunEvent $event)
     {
         if (!in_array($event->getCommand(), ['install', 'update'])) {
             return;
         }
 
         $package = $this->composer->getPackage();
-        $pathsList = (array)($package->getExtra()['remove-paths'] ?? []);
-        $rootPath = $this->composer->getConfig()->get('vendor-dir');
-        foreach ($pathsList as $relativePath) {
-            $path = $rootPath . DIRECTORY_SEPARATOR . ltrim($relativePath, DIRECTORY_SEPARATOR);
-            $this->io->write('Removing <fg=red>' . $path . '</>');
-            exec('rm -rf ' . escapeshellarg($path));
+        $packagesList = (array)($package->getExtra()['remove-packages'] ?? []);
+        foreach ($packagesList as $packageName) {
+            $packages = $this->composer->getRepositoryManager()->getLocalRepository()->search($packageName);
+            foreach ($packages as $package) {
+                $package = $this->composer->getRepositoryManager()->getLocalRepository()->findPackage(
+                    $package['name'],
+                    '*'
+                );
+                $this->io->write('Removing <fg=yellow>' . $package->getName() . '</>');
+                $this->composer->getRepositoryManager()->getLocalRepository()->removePackage($package);
+            }
         }
     }
 
