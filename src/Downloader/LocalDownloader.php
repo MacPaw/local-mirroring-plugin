@@ -25,7 +25,7 @@ class LocalDownloader extends PathDownloader
     /**
      * {@inheritdoc}
      */
-    public function download(PackageInterface $package, $path, $output = true)
+    public function download(PackageInterface $package, $path, PackageInterface $prevPackage = null, $output = true)
     {
         $url = $package->getDistUrl();
         $realUrl = realpath($url);

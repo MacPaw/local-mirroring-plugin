@@ -30,14 +30,21 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param Composer $composer
-     * @param IOInterface $io
-     */
+    /** @inheritDoc */
     public function activate(Composer $composer, IOInterface $io)
     {
         $this->composer = $composer;
         $this->io = $io;
+    }
+
+    /** @inheritDoc */
+    public function deactivate(Composer $composer, IOInterface $io)
+    {
+    }
+
+    /** @inheritDoc */
+    public function uninstall(Composer $composer, IOInterface $io)
+    {
     }
 
     /**
