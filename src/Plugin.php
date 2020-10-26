@@ -6,10 +6,12 @@ use Composer\Cache;
 use Composer\Composer;
 use Composer\EventDispatcher\Event;
 use Composer\EventDispatcher\EventSubscriberInterface;
+use Composer\Factory;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
 use Composer\Plugin\PreCommandRunEvent;
+use Composer\Util\HttpDownloader;
 
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
@@ -83,7 +85,13 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         }
         $this->composer->getDownloadManager()->setDownloader(
             'path',
-            new Downloader\LocalDownloader($this->io, $config, $this->composer->getEventDispatcher(), $cache)
+            new Downloader\LocalDownloader(
+                $this->io,
+                $config,
+                Factory::createHttpDownloader($this->io, $config),
+                $this->composer->getEventDispatcher(),
+                $cache
+            )
         );
     }
 }
