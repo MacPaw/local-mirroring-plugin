@@ -31,7 +31,7 @@ class ExcludeFinder extends ArchivableFilesFinder
     {
         $fs = new Filesystem();
 
-        $sources = $fs->normalizePath($sources);
+        $sources = $fs->normalizePath(realpath($sources));
 
         if ($ignoreFilters) {
             $filters = array();
@@ -46,7 +46,7 @@ class ExcludeFinder extends ArchivableFilesFinder
         $this->finder = new Finder();
 
         $filter = function (\SplFileInfo $file) use ($sources, $filters, $fs) {
-            if ($file->isLink() && strpos($file->getLinkTarget(), $sources) !== 0) {
+            if ($file->isLink() && strpos($file->getRealPath(), $sources) !== 0) {
                 return false;
             }
 
