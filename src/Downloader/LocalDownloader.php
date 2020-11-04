@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace MacPaw\LocalMirroringPlugin\Downloader;
 
-use Composer\DependencyResolver\Operation\InstallOperation;
 use Composer\Downloader\PathDownloader;
 use Composer\Package\PackageInterface;
 use Composer\Util\Platform;
 use MacPaw\LocalMirroringPlugin\Package\Archiver\ExcludeFinder;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
+use Composer\DependencyResolver\Operation\InstallOperation;
 
 /**
  * Class LocalDownloader
@@ -21,6 +21,9 @@ use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
  */
 class LocalDownloader extends PathDownloader
 {
+    /**
+     * {@inheritdoc}
+     */
     public function install(PackageInterface $package, $path, $output = true)
     {
         $url = $package->getDistUrl();
@@ -37,7 +40,7 @@ class LocalDownloader extends PathDownloader
         }
 
         // Get the transport options with default values
-        $transportOptions = $package->getTransportOptions() + array('symlink' => null, 'relative' => true);
+        $transportOptions = $package->getTransportOptions() + ['symlink' => null, 'relative' => true, 'exclude' => []]; // Changes by plugin
 
         // When symlink transport option is null, both symlink and mirror are allowed
         $currentStrategy = self::STRATEGY_SYMLINK;
@@ -56,10 +59,15 @@ class LocalDownloader extends PathDownloader
             $allowedStrategies = array(self::STRATEGY_MIRROR);
         }
 
-        if (Platform::isWindows()) { // Changes by plugin
+        // Check we can use junctions safely if we are on Windows
+        /*
+         * Changes by plugin
+         * function safeJunctions is private, but who cares about windows support ;)
+
+        if (Platform::isWindows() && self::STRATEGY_SYMLINK === $currentStrategy && !$this->safeJunctions()) {
             $currentStrategy = self::STRATEGY_MIRROR;
             $allowedStrategies = array(self::STRATEGY_MIRROR);
-        }
+        }*/
 
         $symfonyFilesystem = new SymfonyFilesystem();
         $this->filesystem->removeDirectory($path);
@@ -106,7 +114,7 @@ class LocalDownloader extends PathDownloader
             $realUrl = $this->filesystem->normalizePath($realUrl);
 
             $this->io->writeError(sprintf('%sMirroring from %s', $isFallback ? '    ' : '', $url), false);
-            $iterator = new ExcludeFinder($realUrl, [], false, $transportOptions['exclude'] ?? []); // Changes by plugin
+            $iterator = new ExcludeFinder($realUrl, [], false, $transportOptions['exclude']); // Changes by plugin
             $symfonyFilesystem->mirror($realUrl, $path, $iterator);
         }
 
