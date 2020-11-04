@@ -11,7 +11,6 @@ use Composer\IO\IOInterface;
 use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
 use Composer\Plugin\PreCommandRunEvent;
-use Composer\Util\HttpDownloader;
 
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
