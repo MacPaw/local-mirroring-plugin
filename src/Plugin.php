@@ -11,6 +11,7 @@ use Composer\IO\IOInterface;
 use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
 use Composer\Plugin\PreCommandRunEvent;
+use Composer\Repository\RepositoryInterface;
 
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
@@ -60,7 +61,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $package = $this->composer->getPackage();
         $packagesList = (array)($package->getExtra()['remove-packages'] ?? []);
         foreach ($packagesList as $packageName) {
-            $packages = $this->composer->getRepositoryManager()->getLocalRepository()->search($packageName);
+            $packages = $this->composer->getRepositoryManager()->getLocalRepository()->search($packageName, RepositoryInterface::SEARCH_NAME);
             foreach ($packages as $package) {
                 $package = $this->composer->getRepositoryManager()->getLocalRepository()->findPackage(
                     $package['name'],
