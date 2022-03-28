@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [2.2.1](https://github.com/MacPaw/local-mirroring-plugin/compare/v2.2.0...v2.2.1) (2022-03-28)
+
+
+### Bug Fixes
+
+* update to work with composer 2.2 ([6d216f3](https://github.com/MacPaw/local-mirroring-plugin/commit/6d216f3b7d992ae466c7ca9f27e71a5625aa9cf2))
+
 ## [2.2.0](https://github.com/MacPaw/local-mirroring-plugin/compare/v2.1.0...v2.2.0) (2022-03-24)
 
 
