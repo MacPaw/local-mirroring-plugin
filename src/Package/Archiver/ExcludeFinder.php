@@ -6,7 +6,6 @@ use Composer\Package\Archiver\ArchivableFilesFinder;
 
 use Composer\Package\Archiver\ComposerExcludeFilter;
 use Composer\Package\Archiver\GitExcludeFilter;
-use Composer\Package\Archiver\HgExcludeFilter;
 use Composer\Util\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -37,7 +36,6 @@ class ExcludeFinder extends ArchivableFilesFinder
             $filters = array();
         } else {
             $filters = array(
-                new HgExcludeFilter($sources),
                 new GitExcludeFilter($sources),
                 new ComposerExcludeFilter($sources, $excludes),
             );
@@ -73,7 +71,8 @@ class ExcludeFinder extends ArchivableFilesFinder
             ->filter($filter)
             ->exclude($dirExcludes) // Changes by plugin
             ->ignoreVCS(true)
-            ->ignoreDotFiles(false);
+            ->ignoreDotFiles(false)
+            ->sortByName();
 
         \FilterIterator::__construct($this->finder->getIterator());
     }
