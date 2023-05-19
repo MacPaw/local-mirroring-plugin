@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MacPaw\LocalMirroringPlugin\Package\Archiver;
 
@@ -6,6 +6,7 @@ use Composer\Package\Archiver\ArchivableFilesFinder;
 
 use Composer\Package\Archiver\ComposerExcludeFilter;
 use Composer\Package\Archiver\GitExcludeFilter;
+use Composer\Pcre\Preg;
 use Composer\Util\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -22,33 +23,33 @@ class ExcludeFinder extends ArchivableFilesFinder
      * Initializes the internal Symfony Finder with appropriate filters
      *
      * @param string $sources Path to source files to be archived
-     * @param array $excludes Composer's own exclude rules from composer.json
+     * @param string[] $excludes Composer's own exclude rules from composer.json
      * @param bool $ignoreFilters Ignore filters when looking for files
-     * @param array $dirExcludes Directories to ignore // Changes by plugin
+     * @param string[] $dirExcludes Directories to ignore // Changes by plugin
      */
-    public function __construct($sources, array $excludes, $ignoreFilters = false, array $dirExcludes = [])
+    public function __construct(string $sources, array $excludes, bool $ignoreFilters = false, array $dirExcludes = [])
     {
         $fs = new Filesystem();
 
         $sources = $fs->normalizePath(realpath($sources));
 
         if ($ignoreFilters) {
-            $filters = array();
+            $filters = [];
         } else {
-            $filters = array(
+            $filters = [
                 new GitExcludeFilter($sources),
                 new ComposerExcludeFilter($sources, $excludes),
-            );
+            ];
         }
 
         $this->finder = new Finder();
 
-        $filter = function (\SplFileInfo $file) use ($sources, $filters, $fs) {
-            if ($file->isLink() && strpos($file->getRealPath(), $sources) !== 0) {
+        $filter = static function (\SplFileInfo $file) use ($sources, $filters, $fs): bool {
+            if ($file->isLink() && ($file->getRealPath() === false || strpos($file->getRealPath(), $sources) !== 0)) {
                 return false;
             }
 
-            $relativePath = preg_replace(
+            $relativePath = Preg::replace(
                 '#^'.preg_quote($sources, '#').'#',
                 '',
                 $fs->normalizePath($file->getRealPath())
