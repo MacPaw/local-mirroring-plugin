@@ -46,6 +46,13 @@ class LocalDownloader extends PathDownloader
         // Get the transport options with default values
         $transportOptions = $package->getTransportOptions() + ['relative' => true];
 
+        // Change by plugin
+        foreach ($this->config->getRepositories() as $repository) {
+            if ($repository['type'] === 'path') {
+                $transportOptions['exclude'] = array_merge($transportOptions['exclude'] ?? [], $repository['options']['exclude'] ?? []);
+            }
+        }
+
         [$currentStrategy, $allowedStrategies] = $this->computeAllowedStrategies($transportOptions);
 
         $symfonyFilesystem = new SymfonyFilesystem();
