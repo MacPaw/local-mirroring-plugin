@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.0](https://github.com/MacPaw/local-mirroring-plugin/compare/v2.2.2...v2.3.0) (2023-05-22)
+
+
+### Features
+
+* upgrade to support plugin api 2.3.0 ([7d624aa](https://github.com/MacPaw/local-mirroring-plugin/commit/7d624aadd3725ce5ca7d67d340c83dd0455512b4))
+
 ### [2.2.2](https://github.com/MacPaw/local-mirroring-plugin/compare/v2.2.1...v2.2.2) (2022-04-08)
 
 
