@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.0](https://github.com/MacPaw/local-mirroring-plugin/compare/v2.3.0...v2.4.0) (2023-05-23)
+
+
+### Features
+
+* make "exclude" great again ([bf43765](https://github.com/MacPaw/local-mirroring-plugin/commit/bf43765708e0e5aa760f48849d943e500f8d73c7))
+* make "exclude" great again ([95aa379](https://github.com/MacPaw/local-mirroring-plugin/commit/95aa3797b5c02b08df398f83e5e65280bcddcfa5))
+
 ## [2.3.0](https://github.com/MacPaw/local-mirroring-plugin/compare/v2.2.2...v2.3.0) (2023-05-22)
 
 
