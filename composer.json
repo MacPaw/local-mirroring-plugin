@@ -2,7 +2,7 @@
 	"name": "macpaw/local-mirroring-plugin",
 	"type": "composer-plugin",
 	"keywords": ["composer", "composer-plugin", "monorepo", "downloader", "symlinks"],
-	"version": "2.4.1",
+	"version": "2.5.0",
 	"require": {
 		"php": "^7.0 || ^8.0",
 		"composer-plugin-api": ">=2.3.0"
