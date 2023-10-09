@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.0](https://github.com/MacPaw/local-mirroring-plugin/compare/v2.4.1...v2.5.0) (2023-10-09)
+
+
+### Features
+
+* bump composer/composer from 2.5.5 to 2.6.4 ([66fdfa7](https://github.com/MacPaw/local-mirroring-plugin/commit/66fdfa71dcc2e7986c12ff947faef7abcd3caae8))
+
 ### [2.4.1](https://github.com/MacPaw/local-mirroring-plugin/compare/v2.4.0...v2.4.1) (2023-05-23)
 
 
