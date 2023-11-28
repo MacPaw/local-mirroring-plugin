@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.0](https://github.com/MacPaw/local-mirroring-plugin/compare/v2.5.0...v2.6.0) (2023-11-28)
+
+
+### Features
+
+* **infra:** azp pool migration to default-sre ([cfb3877](https://github.com/MacPaw/local-mirroring-plugin/commit/cfb3877e5162b6d43faebd146d35548f95f6ed58))
+
 ## [2.5.0](https://github.com/MacPaw/local-mirroring-plugin/compare/v2.4.1...v2.5.0) (2023-10-09)
 
 
